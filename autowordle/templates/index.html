@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block body %}
+    <div class="center-container">
+        <div class="vertical-items">
+            <p class="question">Choose a game to play:</p>
+            <div class="choices">
+                <button type="button" class="item-box wordle" onclick="document.location.href = '{{ url_for('play', game_type_id='wordle') }}'">
+                    <div class="big-letters">W</div>
+                    <div class="label">Wordle</div>
+                </button>
+                <button type="button" class="item-box absurdle" onclick="document.location.href = '{{ url_for('play', game_type_id='absurdle') }}'">
+                    <div class="big-letters">A</div>
+                    <div class="label">Absurdle</div>
+                </button>
+            </div>
+        </div>
+    </div>
+{% endblock %}

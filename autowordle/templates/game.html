@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block title %}{{ game_name }}{% endblock %}
+
+{% block head %}
+{{ super() }}
+<script>
+    let gameType = "{{ game_type_id }}";
+    let guessURL = "{{ url_for('guess', game_id=game_id) }}";
+</script>
+<script src="{{ url_for('static', filename='game.js') }}" defer></script>
+{% endblock %}
+
+{% block body %}
+<div class="padding">
+    <div class="vertical-items">
+        <h1 class="game-name {{ game_type_id }}">{{ game_name }}</h1>
+        <div class="attempts-view">
+            <div class="letter-box"></div>
+            <div class="letter-box"></div>
+            <div class="letter-box"></div>
+            <div class="letter-box"></div>
+            <div class="letter-box"></div>
+
+            <div class="letter-box"></div>
+            <div class="letter-box"></div>
+            <div class="letter-box"></div>
+            <div class="letter-box"></div>
+            <div class="letter-box"></div>
+
+            <div class="letter-box"></div>
+            <div class="letter-box"></div>
+            <div class="letter-box"></div>
+            <div class="letter-box"></div>
+            <div class="letter-box"></div>
+
+            <div class="letter-box"></div>
+            <div class="letter-box"></div>
+            <div class="letter-box"></div>
+            <div class="letter-box"></div>
+            <div class="letter-box"></div>
+
+            <div class="letter-box"></div>
+            <div class="letter-box"></div>
+            <div class="letter-box"></div>
+            <div class="letter-box"></div>
+            <div class="letter-box"></div>
+
+            <div class="letter-box"></div>
+            <div class="letter-box"></div>
+            <div class="letter-box"></div>
+            <div class="letter-box"></div>
+            <div class="letter-box"></div>
+        </div>
+        <div id="message" style="display: none;"></div>
+        <div class="keyboard">
+            <div class="keyboard-row">
+                <button type="button" class="letter-box" id="key-Q">Q</button>
+                <button type="button" class="letter-box" id="key-W">W</button>
+                <button type="button" class="letter-box" id="key-E">E</button>
+                <button type="button" class="letter-box" id="key-R">R</button>
+                <button type="button" class="letter-box" id="key-T">T</button>
+                <button type="button" class="letter-box" id="key-Y">Y</button>
+                <button type="button" class="letter-box" id="key-U">U</button>
+                <button type="button" class="letter-box" id="key-I">I</button>
+                <button type="button" class="letter-box" id="key-O">O</button>
+                <button type="button" class="letter-box" id="key-P">P</button>
+            </div>
+            <div class="keyboard-row">
+                <button type="button" class="letter-box" id="key-A">A</button>
+                <button type="button" class="letter-box" id="key-S">S</button>
+                <button type="button" class="letter-box" id="key-D">D</button>
+                <button type="button" class="letter-box" id="key-F">F</button>
+                <button type="button" class="letter-box" id="key-G">G</button>
+                <button type="button" class="letter-box" id="key-H">H</button>
+                <button type="button" class="letter-box" id="key-J">J</button>
+                <button type="button" class="letter-box" id="key-K">K</button>
+                <button type="button" class="letter-box" id="key-L">L</button>
+            </div>
+            <div class="keyboard-row">
+                <button type="button" class="letter-box" id="key-Z">Z</button>
+                <button type="button" class="letter-box" id="key-X">X</button>
+                <button type="button" class="letter-box" id="key-C">C</button>
+                <button type="button" class="letter-box" id="key-V">V</button>
+                <button type="button" class="letter-box" id="key-B">B</button>
+                <button type="button" class="letter-box" id="key-N">N</button>
+                <button type="button" class="letter-box" id="key-M">M</button>
+                <button type="button" class="letter-box" id="key-BACKSPACE">⌫</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

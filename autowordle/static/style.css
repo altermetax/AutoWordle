@@ -1,0 +1,224 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+
+:root {
+    --bgcolor: #191D28;
+    --fgcolor: #FFF;
+
+    --border-color: #4f5c83;
+    --border-color-green: #4f835f;
+    --border-color-yellow: #83824f;
+    --border-color-gray: #5e5e5e;
+
+    --bgcolor-hover: #262b3b;
+    --bgcolor-active: #4f5c83;
+
+    --bgcolor-hover-green: #7ab68d;
+    --bgcolor-active-green: #2b5338;
+    --bgcolor-hover-yellow: #b1b07a;
+    --bgcolor-active-yellow: #525131;
+    --bgcolor-hover-gray: #7c7c7c;
+    --bgcolor-active-gray: #3a3a3a;
+
+    --wordle-color: #c7ffc7;
+    --absurdle-color: #ffdcbb;
+
+    --text-win: #43d63e;
+    --text-lose: #ca5b5b;
+    --text-error: #ff3535;
+}
+
+@media (prefers-color-scheme: light) {
+    :root {
+        --bgcolor: #FFF;
+        --fgcolor: #000;
+    }
+}
+
+
+html, body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    background-color: var(--bgcolor);
+    color: var(--fgcolor);
+    font-family: "Lato", sans-serif;
+}
+
+.padding {
+    padding: 20px;
+}
+
+
+.center-container {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.vertical-items {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    gap: 20px;
+}
+
+.question {
+    font-size: 2em;
+}
+
+.choices {
+    display: flex;
+    gap: 30px;
+}
+
+
+button {
+    background-color: var(--bgcolor);
+    color: var(--fgcolor);
+    border: 2px solid var(--border-color);
+    box-sizing: content-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.05s, border-color 0.05s;
+}
+
+button:hover {
+    background-color: var(--bgcolor-hover);
+    cursor: pointer;
+}
+
+button:active, button.active {
+    background-color: var(--bgcolor-active);
+}
+
+
+button.item-box {
+    width: 15rem;
+    height: 15rem;
+    padding: 1rem;
+    flex-direction: column;
+}
+
+button.item-box .big-letters {
+    font-size: 5rem;
+    font-weight: bold;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+button.item-box .label {
+    font-size: 1.1em;
+    font-weight: bold;
+    flex-grow: 0.3;
+}
+
+
+.item-box.wordle, h1.game-name.wordle {
+    color: var(--wordle-color);
+}
+
+.item-box.absurdle, h1.game-name.absurdle {
+    color: var(--absurdle-color);
+}
+
+
+h1.game-name {
+    margin: 0;
+}
+
+.letter-box {
+    border: 2px solid var(--border-color);
+}
+.letter-box.green {
+    border: 2px solid var(--border-color-green);
+    background-color: var(--border-color-green);
+}
+.keyboard .letter-box.green:hover {
+    border: 2px solid var(--bgcolor-hover-green);
+    background-color: var(--bgcolor-hover-green);
+}
+.keyboard .letter-box.green:active, .letter-box.green.active {
+    border: 2px solid var(--bgcolor-active-green);
+    background-color: var(--bgcolor-active-green);
+}
+.letter-box.yellow {
+    border: 2px solid var(--border-color-yellow);
+    background-color: var(--border-color-yellow);
+}
+.keyboard .letter-box.yellow:hover {
+    border: 2px solid var(--bgcolor-hover-yellow);
+    background-color: var(--bgcolor-hover-yellow);
+}
+.keyboard .letter-box.yellow:active, .letter-box.yellow.active {
+    border: 2px solid var(--bgcolor-active-yellow);
+    background-color: var(--bgcolor-active-yellow);
+}
+.letter-box.gray {
+    border: 2px solid var(--border-color-gray);
+    background-color: var(--border-color-gray);
+}
+.keyboard .letter-box.gray:hover {
+    border: 2px solid var(--bgcolor-hover-gray);
+    background-color: var(--bgcolor-hover-gray);
+}
+.keyboard .letter-box.gray:active, .letter-box.gray.active {
+    border: 2px solid var(--bgcolor-active-gray);
+    background-color: var(--bgcolor-active-gray);
+}
+
+.attempts-view {
+    display: grid;
+    grid-template-columns: repeat(5, 3.5em);
+    grid-template-rows: repeat(6, 3.5em);
+    row-gap: 0.5em;
+    column-gap: 0.5em;
+    justify-content: center;
+}
+
+.attempts-view .letter-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5em;
+    font-weight: bold;
+    user-select: none;
+}
+
+.keyboard {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.keyboard-row {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.keyboard .letter-box {
+    font-size: 1rem;
+    width: 2em;
+    height: 2.5em;
+    line-height: 2.5em;
+}
+
+#message {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+#message.win {
+    color: var(--text-win);
+}
+#message.lose {
+    color: var(--text-lose);
+}
+#message.error {
+    color: var(--text-error);
+}
