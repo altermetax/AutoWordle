@@ -2,7 +2,6 @@ from flask import Flask, request, render_template, session, abort
 from flask_session import Session
 from werkzeug.middleware.proxy_fix import ProxyFix
 from .session_game_manager import SessionGameManager
-from .dict_loader import get_possible_words, get_accepted_words
 import os
 
 def create_app(test_config=None):

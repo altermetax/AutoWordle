@@ -65,6 +65,11 @@ body {
     gap: 20px;
 }
 
+.full-height {
+    box-sizing: border-box;
+    height: 100%;
+}
+
 .question {
     font-size: 2em;
 }
@@ -179,7 +184,9 @@ h1.game-name {
     row-gap: 0.5em;
     column-gap: 0.5em;
     justify-content: center;
-    height: 25em;
+    /*min-height: 24em;*/
+    /*height: calc(100vh - 20em);*/
+    flex-grow: 1;
     overflow: auto;
 }
 
@@ -195,13 +202,13 @@ h1.game-name {
 .keyboard {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 0.5em;
 }
 
 .keyboard-row {
     display: flex;
     justify-content: center;
-    gap: 10px;
+    gap: 0.5em;
 }
 
 .keyboard .letter-box {
