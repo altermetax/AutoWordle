@@ -1,10 +1,15 @@
 from .abstract_wordle import AbstractWordle
+from .dict_loader import get_possible_words, get_accepted_words, get_today_wordle_word
+from .wordle_util import wordle_compare
 import random
 
 class Wordle(AbstractWordle):
-    def __init__(self, possible_words, accepted_words):
-        self.word = random.choice(possible_words)
-        self.accepted_words = accepted_words
+    def __init__(self, data_path, use_real_word=False):
+        if use_real_word:
+            self.word = get_today_wordle_word()
+        else:
+            self.word = random.choice(get_possible_words(data_path))
+        self.accepted_words = get_accepted_words(data_path)
         self.attempts = 0
 
     def try_word(self, guess):
@@ -15,15 +20,7 @@ class Wordle(AbstractWordle):
 
         self.attempts += 1
 
-        result = ["gray", "gray", "gray", "gray", "gray"]
-        for i in range(len(self.word)):
-            if self.word[i] == guess[i]:
-                result[i] = "green"
-            else:
-                for j in range(len(guess)):
-                    if self.word[i] == guess[j] and result[j] != "green":
-                        result[j] = "yellow"
-                        break
+        result = wordle_compare(guess, self.word)
         out = {
             "valid": True,
             "result": result,

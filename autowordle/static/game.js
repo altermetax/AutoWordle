@@ -1,15 +1,33 @@
 let simKeyPressDuration = 200; // Milliseconds between simulated keypresses
 
-let attemptBoxes = document.querySelectorAll(".attempts-view .letter-box");
-let keyboardButtons = document.querySelectorAll(".keyboard .letter-box");
-
 let inputLength = 0;
 
 let addEnabled = true;
-let backspaceEnabled = true;
+let backspaceEnabled = false;
 
-const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+let numberOfAttempts = (gameType === "wordle") ? 6 : -1; // -1 means infinite attempts
+let numberOfCells = (numberOfAttempts === -1) ? 5 : numberOfAttempts * 5;
+
+// Adds the specified amount of single-letter cells to the attempts view
+let attemptBoxes = [];
+function addAttemptBoxes(amount) {
+    let container = document.getElementById("attempts-view");
+    for (let i = 0; i < amount; i++) {
+        let elem = document.createElement("div");
+        elem.classList.add("letter-box");
+        container.appendChild(elem);
+        attemptBoxes.push(elem);
+        elem.scrollIntoView();
+    }
+}
+
+// Generate grid
+addAttemptBoxes(numberOfCells)
+
+let keyboardButtons = document.querySelectorAll(".keyboard .letter-box");
+
 // Receive keyboard input
+const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 document.addEventListener("keydown", function(event) {
     let key = event.key.toUpperCase();
     if (alphabet.includes(key) || key === "BACKSPACE") {
@@ -24,6 +42,7 @@ document.addEventListener("keyup", function(event) {
     }
 });
 
+// Receive input on the keyboard buttons on screen
 keyboardButtons.forEach(function(b) {
     b.addEventListener("click", function() {
         handleKeyPress(b.innerHTML === "⌫" ? "BACKSPACE" : b.innerHTML);
@@ -49,8 +68,6 @@ function dehighlightKey(key) {
 function addLetter(letter) {
     if (!addEnabled)
         return;
-    if (inputLength === 30)
-        return;
 
     attemptBoxes[inputLength++].innerHTML = letter;
 
@@ -67,8 +84,6 @@ function addLetter(letter) {
 
 function backspace() {
     if (!backspaceEnabled)
-        return;
-    if (inputLength === 0)
         return;
 
     inputLength--;
@@ -170,8 +185,6 @@ function guessWord(word) {
                 return;
             }
 
-            addEnabled = true;
-
             let result = resp.result;
 
             let countGreen = 0;
@@ -203,12 +216,16 @@ function guessWord(word) {
             if (countGreen === 5) {
                 win();
                 return;
-            } else if (inputLength === 30) {
+            } else if (numberOfAttempts !== -1 && inputLength === numberOfCells) {
                 if (resp.correct)
                     lose(resp.correct);
                 else
                     lose();
                 return;
+            } else {
+                if (numberOfAttempts === -1)
+                    addAttemptBoxes(5);
+                addEnabled = true;
             }
         });
     });

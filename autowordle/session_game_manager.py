@@ -5,14 +5,14 @@ class SessionGameManager:
     games = {}
     next_id = 0
 
-    def new_game(self, type, possible_words, accepted_words):
+    def new_game(self, type, data_path):
         id = self.next_id
         self.next_id += 1
 
         if type == "wordle":
-            self.games[id] = Wordle(possible_words, accepted_words)
+            self.games[id] = Wordle(data_path, True)
         elif type == "absurdle":
-            self.games[id] = Absurdle(possible_words, accepted_words)
+            self.games[id] = Absurdle(data_path)
 
         return id
 

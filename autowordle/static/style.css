@@ -6,16 +6,16 @@
 
     --border-color: #4f5c83;
     --border-color-green: #4f835f;
-    --border-color-yellow: #83824f;
+    --border-color-yellow: #a79546;
     --border-color-gray: #5e5e5e;
 
     --bgcolor-hover: #262b3b;
     --bgcolor-active: #4f5c83;
 
-    --bgcolor-hover-green: #7ab68d;
+    --bgcolor-hover-green: #6eac82;
     --bgcolor-active-green: #2b5338;
-    --bgcolor-hover-yellow: #b1b07a;
-    --bgcolor-active-yellow: #525131;
+    --bgcolor-hover-yellow: #cfba5b;
+    --bgcolor-active-yellow: #6b5c1b;
     --bgcolor-hover-gray: #7c7c7c;
     --bgcolor-active-gray: #3a3a3a;
 
@@ -172,16 +172,18 @@ h1.game-name {
     background-color: var(--bgcolor-active-gray);
 }
 
-.attempts-view {
+#attempts-view {
     display: grid;
     grid-template-columns: repeat(5, 3.5em);
-    grid-template-rows: repeat(6, 3.5em);
+    grid-auto-rows: 3.5em;
     row-gap: 0.5em;
     column-gap: 0.5em;
     justify-content: center;
+    height: 25em;
+    overflow: auto;
 }
 
-.attempts-view .letter-box {
+#attempts-view .letter-box {
     display: flex;
     justify-content: center;
     align-items: center;

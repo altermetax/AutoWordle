@@ -39,9 +39,9 @@ def create_app(test_config=None):
             game_manager = SessionGameManager()
             session["game_manager"] = game_manager
 
-        game_id = game_manager.new_game(game_type_id, get_possible_words(app.root_path), get_accepted_words(app.root_path))
+        game_id = game_manager.new_game(game_type_id, app.root_path)
 
-        game_name = "Wordle" if game_type_id == "wordle" else "Absurdle"
+        game_name = "AutoWordle" if game_type_id == "wordle" else "AutoAbsurdle"
         return render_template("game.html", game_id=game_id, game_type_id=game_type_id, game_name=game_name)
 
     @app.route("/guess/<game_id>")
