@@ -7,14 +7,17 @@
 <script>
     let gameType = "{{ game_type_id }}";
     let guessURL = "{{ url_for('guess', game_id=game_id) }}";
+    let solverURL = "{{ url_for('solve') }}";
 </script>
 <script src="{{ url_for('static', filename='game.js') }}" defer></script>
+<script src="{{ url_for('static', filename='autopilot.js') }}" defer></script>
 {% endblock %}
 
 {% block body %}
 <div class="padding full-height">
     <div class="vertical-items full-height">
         <h1 class="game-name {{ game_type_id }}">{{ game_name }}</h1>
+        <button type="button" id="toggle-autopilot" class="extrapadding">Start autopilot</button>
         <div id="attempts-view">
         </div>
         <div id="message" style="display: none;"></div>

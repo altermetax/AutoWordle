@@ -62,4 +62,8 @@ def create_app(test_config=None):
             abort(400, "Game doesn't exist")
         return result
 
+    @app.route("/solve", methods=["POST"])
+    def solve():
+        return { "word": "QUICK" }
+
     return app
