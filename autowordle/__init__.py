@@ -2,6 +2,7 @@ from flask import Flask, request, render_template, session, abort
 from flask_session import Session
 from werkzeug.middleware.proxy_fix import ProxyFix
 from .session_game_manager import SessionGameManager
+from .session_solver_manager import SessionSolverManager
 import os
 
 def create_app(test_config=None):
@@ -30,7 +31,6 @@ def create_app(test_config=None):
     def play(game_type_id):
         if game_type_id not in ["wordle", "absurdle"]:
             abort(400, "Invalid game type id")
-            return
 
         if "game_manager" in session:
             game_manager = session.get("game_manager")
@@ -47,13 +47,11 @@ def create_app(test_config=None):
     def guess(game_id):
         if "game_manager" not in session:
             abort(400, "No games started")
-            return
         game_manager = session["game_manager"]
 
         word = request.args.get("word")
         if word is None:
             abort(400, "No word given")
-            return
 
         game_id = int(game_id)
 
@@ -64,6 +62,31 @@ def create_app(test_config=None):
 
     @app.route("/solve", methods=["POST"])
     def solve():
-        return { "word": "QUICK" }
+        if "solver_manager" in session:
+            solver_manager = session.get("solver_manager")
+        else:
+            solver_manager = SessionSolverManager()
+            session["solver_manager"] = solver_manager
+
+        request_payload = request.json
+
+        if "newGameState" in request_payload:
+            new_game_state = request_payload["newGameState"]
+        else:
+            abort(400, "Missing paramter newGameState")
+        
+        if "solverID" in request_payload:
+            solver_id = request_payload["solverID"]
+        else:
+            if "gameTypeID" in request_payload:
+                game_type_id = request_payload.get("gameTypeID")
+                solver_id = solver_manager.new_solver(game_type_id, app.root_path)
+            else:
+                abort(400, "Missing either parameter solverID or gameTypeID")
+
+        result = solver_manager.get_guess(solver_id, new_game_state)
+        if result is None:
+            abort(400, "Solver doesn't exist")
+        return result | { "solverID": solver_id }
 
     return app

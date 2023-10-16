@@ -5,6 +5,7 @@ AutoWordle is a Wordle and Absurdle clone with a web interface running on Flask 
 - Already implemented:
   - Wordle game
   - Absurdle game
+  - Absurdle automatic solver (simple)
 - Yet to implement:
+  - Absurdle automatic solver (with state space search)
   - Wordle automatic solver
-  - Absurdle automatic solver

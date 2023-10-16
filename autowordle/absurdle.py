@@ -1,6 +1,6 @@
 from .abstract_wordle import AbstractWordle
 from .dict_loader import get_possible_words, get_accepted_words, get_today_wordle_word
-from .wordle_util import wordle_compare
+from .wordle_util import absurdle_step
 
 class Absurdle(AbstractWordle):
     def __init__(self, data_path):
@@ -13,18 +13,7 @@ class Absurdle(AbstractWordle):
                 "valid": False,
             }
 
-        # Group all remaining words based on what the outcome would be if they were the correct word
-        # and pick the largest group
-        groups = {}
-
-        for word in self.remaining_words:
-            result = wordle_compare(guess, word)
-            if result in groups:
-                groups[result] += [word]
-            else:
-                groups[result] = [word]
-        
-        best_answer = max(groups, key=lambda k : len(groups[k]))
+        (groups, best_answer) = absurdle_step(guess, self.remaining_words)
 
         self.remaining_words = groups[best_answer]
 

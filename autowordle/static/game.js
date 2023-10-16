@@ -210,7 +210,6 @@ function guessWord(word) {
 
             let result = resp.result;
 
-            document.dispatchEvent(stateChangeEvent);
             gameState.push([]);
             let gameStateIndex = gameState.length - 1;
 
@@ -263,6 +262,8 @@ function guessWord(word) {
                     addAttemptBoxes(5);
                 addEnabled = true;
             }
+
+            document.dispatchEvent(stateChangeEvent);
         });
     });
 }

@@ -46,9 +46,14 @@ async function autopilotIteration() {
     if (solverID) {
         payload = {
             ...payload,
-            gameID: solverID
+            solverID: solverID
+        };
+    } else {
+        payload = {
+            ...payload,
+            gameTypeID: gameType
         }
-    };
+    }
 
     try {
         const response = await fetch(solverURL, {
@@ -68,6 +73,9 @@ async function autopilotIteration() {
 
         if (!autopilotEnabled)
             return;
+
+        if (result.solverID)
+            solverID = result.solverID;
 
         autoTyper.type(result.word);
     } catch (error) {
