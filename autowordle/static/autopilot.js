@@ -6,6 +6,8 @@ let currentInterval = null;
 
 // Listen for status changes
 document.addEventListener("game-state-change", autopilotIteration);
+document.addEventListener("win", handleEnd);
+document.addEventListener("lose", handleEnd);
 
 // When the button is clicked, toggle autopilot mode
 let toggleAutopilotButton = document.getElementById("toggle-autopilot");
@@ -20,6 +22,11 @@ toggleAutopilotButton.addEventListener("click", function(e) {
         startAutopilot();
     }
 });
+
+function handleEnd() {
+    toggleAutopilotButton.innerHTML = "Start autopilot";
+    toggleAutopilotButton.disabled = true;
+}
 
 function startAutopilot() {
     autopilotEnabled = true;

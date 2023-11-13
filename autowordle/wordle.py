@@ -4,11 +4,14 @@ from .wordle_util import wordle_compare
 import random
 
 class Wordle(AbstractWordle):
-    def __init__(self, data_path, use_real_word=False):
+    def __init__(self, data_path, use_real_word=False, word=None):
         if use_real_word:
             self.word = get_today_wordle_word()
         else:
-            self.word = random.choice(get_possible_words(data_path))
+            if word is None:
+                self.word = random.choice(get_possible_words(data_path))
+            else:
+                self.word = word
         self.accepted_words = get_accepted_words(data_path)
         self.attempts = 0
 

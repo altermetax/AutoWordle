@@ -16,6 +16,10 @@ let gameState = [];
 // Event that gets called whenever a new line of colors is received from the server
 let stateChangeEvent = new Event("game-state-change");
 
+// Events that get called when the respective events occur
+let winEvent = new Event("win");
+let loseEvent = new Event("lose");
+
 // Add the specified amount of single-letter cells to the attempts view
 let attemptBoxes = [];
 function addAttemptBoxes(amount) {
@@ -290,6 +294,7 @@ function win() {
     elem.innerHTML = "You win!";
     elem.style.display = "";
     elem.classList.add("win");
+    document.dispatchEvent(winEvent);
 }
 
 function lose(correctWord = null) {
@@ -301,4 +306,5 @@ function lose(correctWord = null) {
         elem.innerHTML += " The correct word was " + correctWord + ".";
     elem.style.display = "";
     elem.classList.add("lose");
+    document.dispatchEvent(loseEvent);
 }

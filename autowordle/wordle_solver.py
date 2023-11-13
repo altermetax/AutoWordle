@@ -1,2 +1,3 @@
 class WordleSolver:
-    pass
+    def __init__(self, data_path):
+        pass

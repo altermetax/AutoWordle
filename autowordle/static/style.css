@@ -92,12 +92,16 @@ button {
     transition: background-color 0.05s, border-color 0.05s;
 }
 
-button:hover {
+button[disabled] {
+    color: var(--border-color);
+}
+
+button:hover:not([disabled]) {
     background-color: var(--bgcolor-hover);
     cursor: pointer;
 }
 
-button:active, button.active {
+button:active:not([disabled]), button.active:not([disabled]) {
     background-color: var(--bgcolor-active);
 }
 

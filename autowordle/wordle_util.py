@@ -51,6 +51,14 @@ def wordle_check(word, colored_word):
         
     return True
 
+# Restricts an array of words to the ones that match `colored_word` according to wordle_check()
+def wordle_filter(words, colored_word):
+    result = []
+    for word in words:
+        if wordle_check(word, colored_word):
+            result.append(word)
+    return result
+
 # Given two color arrays, return -1, 0 or 1 based on Absurdle criteria.
 # In order of priority, these criteria are:
 # Amount of greens
