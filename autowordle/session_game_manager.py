@@ -10,7 +10,7 @@ class SessionGameManager:
         self.next_id += 1
 
         if type == "wordle":
-            self.games[id] = Wordle(data_path, True)
+            self.games[id] = Wordle(data_path, False, "WASTE")
         elif type == "absurdle":
             self.games[id] = Absurdle(data_path)
 

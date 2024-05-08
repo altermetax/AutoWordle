@@ -1,5 +1,5 @@
-from .dict_loader import get_possible_words
-from .wordle_util import absurdle_step, wordle_filter
+from .dict_loader import get_possible_words, get_accepted_words
+from .wordle_util import absurdle_step, wordle_filter, find_nongreen_letter
 
 class BasicAbsurdleSolver:
     def __init__(self, data_path):
@@ -99,13 +99,30 @@ class Node:
 class AbsurdleSolver:
     def __init__(self, data_path):
         self.maxdepth = 8
+        self.min_number_of_attempts = 4 # Minimum number of attempts ever required to solve Absurdle
         self.number_of_past_attempts = 0
         self.remaining_words = get_possible_words(data_path)
+        self.accepted_words = get_accepted_words(data_path)
 
     def get_guess(self, new_game_state):
         # Restrict remaining_words based on new data
         for colored_word in new_game_state:
             self.remaining_words = wordle_filter(self.remaining_words, colored_word)
+
+        # If there is only one nongreen letter found and there are more than 2 remaining words,
+        # use a word which might not satisfy previous requirements but which contains
+        # many of the letters that could possibly go there.
+        if len(new_game_state) > 0 and len(self.remaining_words) > 2:
+            last_colored_word = new_game_state[-1]
+            index = find_nongreen_letter(last_colored_word)
+            if index is not None:
+                possible_letters = [w[index] for w in self.remaining_words]
+                undesired_letters = [l["letter"] for l in last_colored_word]
+                answer = self.find_word_with_letters(possible_letters, undesired_letters)
+                if answer is not None:
+                    return {
+                        "word": answer
+                    }
 
         self.number_of_past_attempts += len(new_game_state)
         
@@ -115,9 +132,13 @@ class AbsurdleSolver:
 
         if self.number_of_past_attempts == 0:
             #solution_node = self.find_solution_depth_first(root, self.maxdepth)
-            best_user_answer = "AGILE"
+            best_user_answer = "SALET" # Hardcoded first word
         else:
-            solution_node = self.find_solution_iterative_deepening(root, self.maxdepth)
+            if len(root.remaining_words) < 500:
+                solution_node = self.find_solution_iterative_deepening(root, self.min_number_of_attempts - self.number_of_past_attempts, self.maxdepth)
+            else:
+                solution_node = self.find_solution_breadth_first(root, 1)
+                print(root.value)
             if solution_node is None:
                 best_user_answer = None
             else:
@@ -139,11 +160,11 @@ class AbsurdleSolver:
             print("Checking", node, "depth=" + str(node.depth), "value=" + str(node.value))
 
             if node.depth > maxdepth:
-                return None
+                return best_solution
 
             if node.value == 0:
                 return node # Node is optimal solution
-            elif best_solution is None or node.value > best_solution.value:
+            elif best_solution is None or node.value < best_solution.value:
                 best_solution = node # Node is a better solution than the previous best one
 
             node.expand()
@@ -166,12 +187,32 @@ class AbsurdleSolver:
 
             if node.depth < maxdepth:
                 node.expand_if_childless()
-                fringe += node.children
+                fringe += reversed(node.children)
 
-    def find_solution_iterative_deepening(self, root, maxdepth):
-        for depth in range(maxdepth + 1):
+    def find_solution_iterative_deepening(self, root, mindepth, maxdepth):
+        for depth in range(mindepth, maxdepth + 1):
             solution = self.find_solution_depth_first(root, depth)
             if solution is not None:
                 return solution
         print("No solution found")
         return None
+    
+    # Find the word with the highest amount of letters contained in letters and not contained in undesired_letters
+    def find_word_with_letters(self, letters, undesired_letters):
+        counts = []
+        idxmax = -1
+        countmax = 0
+
+        for i, word in enumerate(self.accepted_words):
+            count = 0
+            counted_letters = []
+            for letter in word:
+                if letter in letters and letter not in counted_letters:
+                    if letter not in undesired_letters:
+                        count += 1
+                        counted_letters.append(letter)
+            if count > countmax:
+                countmax = count
+                idxmax = i
+
+        return self.accepted_words[idxmax]

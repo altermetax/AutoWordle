@@ -94,6 +94,23 @@ def compare_color_arrays(a, b):
         
     return 0
 
+# Given a colored word, check whether it has 4 green letters and 1 nongreen letter.
+# If so, return the index of the nongreen letter.
+# Otherwise, return None.
+def find_nongreen_letter(colored_word):
+    last_nongreen = -1
+    nongreen_count = 0
+
+    for i in range(len(colored_word)):
+        if colored_word[i]["color"] != "green":
+            nongreen_count += 1
+            last_nongreen = i
+
+    if nongreen_count == 1:
+        return last_nongreen
+    else:
+        return None
+
 # Given a guess and a dictionary, returns the Absurdle groups for the guess and the best answer (as in: the one with the largest group)
 def absurdle_step(guess, current_dictionary):
     # Group all remaining words based on what the outcome would be if they were the correct word

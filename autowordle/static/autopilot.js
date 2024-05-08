@@ -84,6 +84,11 @@ async function autopilotIteration() {
         if (result.solverID)
             solverID = result.solverID;
 
+        if (!result.word) {
+            console.error("No valid word found by solver");
+            return;
+        }
+
         autoTyper.type(result.word);
     } catch (error) {
         console.error("Error:", error);

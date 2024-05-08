@@ -10,7 +10,7 @@ class SessionSolverManager:
         self.next_id += 1
 
         if type == "wordle":
-            self.solvers[id] = WordleSolver(data_path)
+            self.solvers[id] = AbsurdleSolver(data_path)
         elif type == "absurdle":
             self.solvers[id] = AbsurdleSolver(data_path)
 
