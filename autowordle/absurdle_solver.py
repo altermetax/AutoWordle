@@ -67,6 +67,7 @@ class Node:
                 self._value = len(self.remaining_words)
             return self._value
     
+    # Array of word choices required to reach this node
     @property
     def picks(self):
         current_node = self
@@ -77,6 +78,7 @@ class Node:
         picks.reverse()
         return picks
 
+    # First word choice (from root) required to reach this node
     @property
     def first_pick(self):
         picks = self.picks
@@ -97,12 +99,13 @@ class Node:
 
 
 class AbsurdleSolver:
-    def __init__(self, data_path):
+    def __init__(self, data_path, verbose=True):
         self.maxdepth = 8
         self.min_number_of_attempts = 4 # Minimum number of attempts ever required to solve Absurdle
         self.number_of_past_attempts = 0
         self.remaining_words = get_possible_words(data_path)
         self.accepted_words = get_accepted_words(data_path)
+        self.verbose = verbose
 
     def get_guess(self, new_game_state):
         # Restrict remaining_words based on new data
@@ -112,6 +115,7 @@ class AbsurdleSolver:
         # If there is only one nongreen letter found and there are more than 2 remaining words,
         # use a word which might not satisfy previous requirements but which contains
         # many of the letters that could possibly go there.
+        # In Wordle, this can only be done in easy mode.
         if len(new_game_state) > 0 and len(self.remaining_words) > 2:
             last_colored_word = new_game_state[-1]
             index = find_nongreen_letter(last_colored_word)
@@ -120,6 +124,8 @@ class AbsurdleSolver:
                 undesired_letters = [l["letter"] for l in last_colored_word]
                 answer = self.find_word_with_letters(possible_letters, undesired_letters)
                 if answer is not None:
+                    if self.verbose:
+                        print(f"Using useful word that doesn't satisfy the constraints: {answer}")
                     return {
                         "word": answer
                     }
@@ -138,11 +144,16 @@ class AbsurdleSolver:
                 solution_node = self.find_solution_iterative_deepening(root, self.min_number_of_attempts - self.number_of_past_attempts, self.maxdepth)
             else:
                 solution_node = self.find_solution_breadth_first(root, 1)
-                print(root.value)
             if solution_node is None:
                 best_user_answer = None
             else:
                 best_user_answer = solution_node.first_pick
+
+        if self.verbose:
+            if best_user_answer is None:
+                print("No word found")
+            else:
+                print(f"Using {best_user_answer}")
 
         return {
             "word": best_user_answer
@@ -157,7 +168,9 @@ class AbsurdleSolver:
                 return best_solution
 
             node = fringe.pop(0) # pop from start of fringe
-            print("Checking", node, "depth=" + str(node.depth), "value=" + str(node.value))
+
+            if self.verbose:
+                print(f"[Breadth first] Checking depth={str(node.depth)} value={str(node.value)}: {node}")
 
             if node.depth > maxdepth:
                 return best_solution
@@ -178,7 +191,9 @@ class AbsurdleSolver:
                 return None # max_depth was too small for a solution
 
             node = fringe.pop() # pop from end of fringe
-            print("Checking", node, "depth=" + str(node.depth), "value=" + str(node.value))
+
+            if self.verbose:
+                print(f"[Depth first] Checking depth={str(node.depth)} value={str(node.value)}: {node}")
 
             if node.value == 0:
                 return node # Node is optimal solution
@@ -194,7 +209,6 @@ class AbsurdleSolver:
             solution = self.find_solution_depth_first(root, depth)
             if solution is not None:
                 return solution
-        print("No solution found")
         return None
     
     # Find the word with the highest amount of letters contained in letters and not contained in undesired_letters
