@@ -94,22 +94,27 @@ def compare_color_arrays(a, b):
         
     return 0
 
-# Given a colored word, check whether it has 4 green letters and 1 nongreen letter.
-# If so, return the index of the nongreen letter.
-# Otherwise, return None.
-def find_nongreen_letter(colored_word):
-    last_nongreen = -1
-    nongreen_count = 0
-
-    for i in range(len(colored_word)):
-        if colored_word[i]["color"] != "green":
-            nongreen_count += 1
-            last_nongreen = i
-
-    if nongreen_count == 1:
-        return last_nongreen
-    else:
+# Given a list of words, check whether they're all equal except for one position.
+# If so, return the index of the non-equal letter, an array of the possibilities for the non-equal letter,
+# and an array of the equal letters. Otherwise, return None.
+def find_non_equal_position(words):
+    # If there are more than 26 words, the condition is definitely not met
+    if len(words) > 26:
         return None
+
+    positions = [set() for _ in range(5)]
+    for word in words:
+        for i, letter in enumerate(word):
+            positions[i].add(letter)
+
+    non_equal_letter_index = None
+    for i, position in enumerate(positions):
+        if len(position) != 1:
+            if non_equal_letter_index != None: # More than one non-equal letter
+                return None
+            else:
+                non_equal_letter_index = i
+    return non_equal_letter_index, positions[non_equal_letter_index], [list(v)[0] for i, v in enumerate(positions) if i != non_equal_letter_index]
 
 # Given a guess and a dictionary, returns the Absurdle groups for the guess and the best answer (as in: the one with the largest group)
 def absurdle_step(guess, current_dictionary):

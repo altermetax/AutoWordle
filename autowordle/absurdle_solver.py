@@ -1,5 +1,5 @@
 from .dict_loader import get_possible_words, get_accepted_words
-from .wordle_util import absurdle_step, wordle_filter, find_nongreen_letter
+from .wordle_util import absurdle_step, wordle_filter, find_non_equal_position
 
 class BasicAbsurdleSolver:
     def __init__(self, data_path):
@@ -116,19 +116,24 @@ class AbsurdleSolver:
         # use a word which might not satisfy previous requirements but which contains
         # many of the letters that could possibly go there.
         # In Wordle, this can only be done in easy mode.
-        if len(new_game_state) > 0 and len(self.remaining_words) > 2:
-            last_colored_word = new_game_state[-1]
-            index = find_nongreen_letter(last_colored_word)
-            if index is not None:
-                possible_letters = [w[index] for w in self.remaining_words]
-                undesired_letters = [l["letter"] for l in last_colored_word]
+        if len(self.remaining_words) > 2:
+            results = find_non_equal_position(self.remaining_words)
+            if results is not None:
+                _, possible_letters, undesired_letters = results
+                #possible_letters = [w[index] for w in self.remaining_words]
+                #undesired_letters = [l["letter"] for l in last_colored_word]
+                print(possible_letters)
+                print(undesired_letters)
                 answer = self.find_word_with_letters(possible_letters, undesired_letters)
                 if answer is not None:
                     if self.verbose:
-                        print(f"Using useful word that doesn't satisfy the constraints: {answer}")
+                        print(f"Using useful easy-mode word: {answer}")
                     return {
                         "word": answer
                     }
+                else:
+                    if self.verbose:
+                        print("No useful easy-mode word found")
 
         self.number_of_past_attempts += len(new_game_state)
         
