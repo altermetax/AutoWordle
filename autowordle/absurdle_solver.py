@@ -120,10 +120,6 @@ class AbsurdleSolver:
             results = find_non_equal_position(self.remaining_words)
             if results is not None:
                 _, possible_letters, undesired_letters = results
-                #possible_letters = [w[index] for w in self.remaining_words]
-                #undesired_letters = [l["letter"] for l in last_colored_word]
-                print(possible_letters)
-                print(undesired_letters)
                 answer = self.find_word_with_letters(possible_letters, undesired_letters)
                 if answer is not None:
                     if self.verbose:
