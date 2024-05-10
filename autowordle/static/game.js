@@ -132,6 +132,7 @@ let autoTyper = {
     ids: [],
 
     // Clear the current word by simulating backspaces as if they came from the user
+    // then call `callback`
     clearWord: function(callback) {
         if (!backspaceEnabled) {
             callback();

@@ -12,6 +12,8 @@
     --bgcolor-hover: #262b3b;
     --bgcolor-active: #4f5c83;
 
+    --bgcolor-alternate: #262b3b;
+
     --bgcolor-hover-green: #6eac82;
     --bgcolor-active-green: #2b5338;
     --bgcolor-hover-yellow: #cfba5b;
@@ -238,4 +240,26 @@ h1.game-name {
 }
 #message.error {
     color: var(--text-error);
+}
+
+#loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+}
+
+#loading-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 101;
+    background-color: var(--bgcolor-alternate);
+    padding: 30px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    font-size: 2em;
 }

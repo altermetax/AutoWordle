@@ -31,7 +31,7 @@ function handleEnd() {
 function startAutopilot() {
     autopilotEnabled = true;
     disableManualInput();
-    autoTyper.clearWord(() => autopilotIteration());
+    autoTyper.clearWord(autopilotIteration);
 }
 
 function stopAutopilot() {
@@ -62,6 +62,12 @@ async function autopilotIteration() {
         }
     }
 
+    let loaded = false;
+    setTimeout(() => {
+        if (!loaded) {
+            showLoading();
+        }
+    }, 500);
     try {
         const response = await fetch(solverURL, {
             method: "POST",
@@ -70,6 +76,8 @@ async function autopilotIteration() {
             },
             body: JSON.stringify(payload),
         });
+
+        loaded = true;
 
         if (!response.ok) {
             showError(response.status + ": " + response.statusText);
@@ -92,5 +100,15 @@ async function autopilotIteration() {
         autoTyper.type(result.word);
     } catch (error) {
         console.error("Error:", error);
+    } finally {
+        hideLoading();
     }
+}
+
+function showLoading() {
+    document.getElementById("loading-overlay").style.display = "";
+}
+
+function hideLoading() {
+    document.getElementById("loading-overlay").style.display = "none";
 }
