@@ -112,6 +112,8 @@ class AbsurdleSolver:
         for colored_word in new_game_state:
             self.remaining_words = wordle_filter(self.remaining_words, colored_word)
 
+        self.number_of_past_attempts += len(new_game_state)
+
         # If there is only one nongreen letter found and there are more than 2 remaining words,
         # use a word which might not satisfy previous requirements but which contains
         # many of the letters that could possibly go there.
@@ -130,8 +132,6 @@ class AbsurdleSolver:
                 else:
                     if self.verbose:
                         print("No useful easy-mode word found")
-
-        self.number_of_past_attempts += len(new_game_state)
         
         root = Node()
         root.remaining_words = self.remaining_words
@@ -214,7 +214,6 @@ class AbsurdleSolver:
     
     # Find the word with the highest amount of letters contained in letters and not contained in undesired_letters
     def find_word_with_letters(self, letters, undesired_letters):
-        counts = []
         idxmax = -1
         countmax = 0
 
