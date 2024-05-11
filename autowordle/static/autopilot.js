@@ -38,6 +38,7 @@ function stopAutopilot() {
     autopilotEnabled = false;
     enableManualInput();
     autoTyper.stop();
+    hideLoading();
 }
 
 async function autopilotIteration() {
