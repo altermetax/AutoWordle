@@ -214,8 +214,11 @@ class AbsurdleSolver:
     
     # Find the word with the highest amount of letters contained in letters and not contained in undesired_letters
     def find_word_with_letters(self, letters, undesired_letters):
-        idxmax = -1
+        idxmax = None
         countmax = 0
+
+        if len(self.accepted_words) == 0:
+            return None
 
         for i, word in enumerate(self.accepted_words):
             count = 0

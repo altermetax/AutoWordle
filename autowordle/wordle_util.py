@@ -116,8 +116,9 @@ def find_non_equal_position(words):
                 non_equal_letter_index = i
     return non_equal_letter_index, positions[non_equal_letter_index], [list(v)[0] for i, v in enumerate(positions) if i != non_equal_letter_index]
 
-# Given a guess and a dictionary, returns the Absurdle groups for the guess and the best answer (as in: the one with the largest group)
-def absurdle_step(guess, current_dictionary):
+# Given a guess and a dictionary, returns a dictionary of all the possible resulting "color array <=> list of words" associations.
+# Only one of these groups will be picked by either Wordle or Absurdle after the guess is made.
+def wordle_groups(guess, current_dictionary):
     # Group all remaining words based on what the outcome would be if they were the correct word
     # and pick the largest group
     groups = {}
@@ -125,9 +126,15 @@ def absurdle_step(guess, current_dictionary):
     for word in current_dictionary:
         result = wordle_compare(guess, word)
         if result in groups:
-            groups[result] += [word]
+            groups[result].append(word)
         else:
             groups[result] = [word]
+
+    return groups
+
+# Given a guess and a dictionary, returns the Wordle groups for the guess and the answer Absurdle would give (as in: the one with the largest group)
+def absurdle_step(guess, current_dictionary):
+    groups = wordle_groups(guess, current_dictionary)
 
     # Calculate best answer. If two groups are equally large, pick based on the keys, with criteria as in compare_color_arrays
     keys = list(groups.keys())
