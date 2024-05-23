@@ -1,10 +1,15 @@
 # Given a guess and a correct word, generate the result as a tuple of 5 strings representing colors
 def wordle_compare(guess, correct_word):
     result = ["gray", "gray", "gray", "gray", "gray"]
+
+    # First check the greens
     for i in range(len(correct_word)):
         if correct_word[i] == guess[i]:
             result[i] = "green"
-        else:
+
+    # Then check the yellows
+    for i in range(len(correct_word)):
+        if result[i] != "green": # If this position was not guessed with a green
             for j in range(len(guess)):
                 if correct_word[i] == guess[j] and result[j] == "gray":
                     result[j] = "yellow"
