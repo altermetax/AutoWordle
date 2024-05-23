@@ -1,4 +1,4 @@
-from autowordle.absurdle_solver import AbsurdleSolver
+from autowordle.wordle_solver import WordleSolver
 from autowordle.dict_loader import get_possible_words
 from autowordle.wordle import Wordle
 
@@ -71,4 +71,4 @@ if __name__ == "__main__":
         print(f"where data_path is the path to a directory containing accepted_words.txt and possible_words.txt", file=sys.stderr)
         sys.exit(1)
 
-    run(data_path, AbsurdleSolver)
+    run(data_path, WordleSolver)
