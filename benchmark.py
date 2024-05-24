@@ -1,4 +1,5 @@
-from autowordle.wordle_solver import WordleSolver
+from autowordle.wordle_solver import WordleSolver, SandersonWordleSolver
+from autowordle.absurdle_solver import AbsurdleSolver, BasicAbsurdleSolver
 from autowordle.dict_loader import get_possible_words
 from autowordle.wordle import Wordle
 
@@ -19,6 +20,15 @@ def run(data_path, solver_class):
             print(attempt_counts)
         else:
             print(f"Solution {solution}: {results['msg']}")
+
+    numerator = 0
+    denominator = 0
+    for n_attempts, n_instances in attempt_counts.items():
+        numerator += n_attempts * n_instances
+        denominator += n_instances
+
+    average_n_attempts = numerator / denominator
+    print(f"Number of attempts on average: {average_n_attempts}")
         
 # Run the provided solver with the provided game on the provided solution
 def test_solution(data_path, solver_class, solution):
@@ -71,4 +81,4 @@ if __name__ == "__main__":
         print(f"where data_path is the path to a directory containing accepted_words.txt and possible_words.txt", file=sys.stderr)
         sys.exit(1)
 
-    run(data_path, WordleSolver)
+    run(data_path, AbsurdleSolver)
