@@ -34,3 +34,35 @@ Required attempts to solve Absurdle:
 - `SandersonWordleSolver`: 6
 - `BasicAbsurdleSolver`: 5
 - `TreeAbsurdleSolver`: 4
+
+## Installation
+
+To install and test this application, firstly create a Python virtual environment and install the required packages (`Flask`, `Flask-Session==0.6.0`, `python-memcached`) with the following commands:
+
+```sh
+git clone https://github.com/altermetax/AutoWordle.git
+cd AutoWordle
+python3 -m venv venv
+source venv/bin/activate
+pip install Flask Flask-Session==0.6.0 python-memcached
+```
+
+Then, create a directory called `instance` in the root of this repository containing a file called `config.py` configuring the Flask settings `SESSION_KEY` and `SESSION_TYPE`. To do so quickly, you can use the following commands:
+
+```sh
+pip install python-secrets
+SECRET_KEY=$(python -c 'import secrets; print(secrets.token_hex())')
+mkdir instance
+cat > instance/config.py <<EOF
+SECRET_KEY = "$SECRET_KEY"
+SESSION_TYPE = "memcached"
+EOF
+```
+
+Then you can simply start the application by running the following command and opening http://127.0.0.1:5000 in a web browser.
+
+```sh
+flask --app autowordle run
+```
+
+This configuration is only meant for debugging and testing. If you want to use this application in a production setting, check the Flask documentation page about [deploying to production](https://flask.palletsprojects.com/en/3.0.x/deploying/).
