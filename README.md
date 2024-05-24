@@ -4,13 +4,13 @@ AutoWordle is a Wordle and Absurdle clone with a Flask-based web interface and a
 
 ## Wordle Algorithms
 
-To solve Wordle, two algorithms can be used: `WordleSolver` and `SandersonWordleSolver`. `WordleSolver` relies on statistics, while `SandersonWordleSolver` is based on information theory and is an implementation of the algorithm showcased by YouTuber Grant Sanderson in his video [Solving Wordle Using Information Theory](https://www.youtube.com/watch?v=v68zYyaEmEA).
+To solve Wordle, two algorithms can be used: `StatisticalWordleSolver` and `SandersonWordleSolver`. `StatisticalWordleSolver` relies on statistics, while `SandersonWordleSolver` is based on information theory and is an implementation of the algorithm showcased by YouTuber Grant Sanderson in his video [Solving Wordle Using Information Theory](https://www.youtube.com/watch?v=v68zYyaEmEA).
 
 Both algorithms perform similarly, but the second one is slightly better.
 
 ## Absurdle Algorithms
 
-Two separate algorithms are included to solve Absurdle: `BasicAbsurdleSolver` and `AbsurdleSolver`. `BasicAbsurdleSolver` simply makes the choice most convenient to the player by checking all possible words, while `AbsurdleSolver` is a tree search algorithm which finds the solution closest to the current point in the game.
+Two separate algorithms are included to solve Absurdle: `BasicAbsurdleSolver` and `TreeAbsurdleSolver`. `BasicAbsurdleSolver` simply makes the choice most convenient to the player by checking all possible words, while `TreeAbsurdleSolver` is a tree search algorithm which finds the solution closest to the current point in the game.
 
 ## Performance
 
