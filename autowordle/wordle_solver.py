@@ -2,7 +2,7 @@ from .dict_loader import get_possible_words, get_accepted_words
 from .wordle_util import wordle_filter, wordle_groups
 from math import sqrt, log2
 
-class WordleSolver:
+class StatisticalWordleSolver:
     def __init__(self, data_path, verbose=True):
         self.number_of_past_attempts = 0
         self.remaining_words = get_possible_words(data_path)

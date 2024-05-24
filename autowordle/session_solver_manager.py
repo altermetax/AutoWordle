@@ -1,5 +1,5 @@
-from .wordle_solver import WordleSolver
-from .absurdle_solver import AbsurdleSolver
+from .wordle_solver import StatisticalWordleSolver
+from .absurdle_solver import TreeAbsurdleSolver
 
 class SessionSolverManager:
     solvers = {}
@@ -10,9 +10,9 @@ class SessionSolverManager:
         self.next_id += 1
 
         if type == "wordle":
-            self.solvers[id] = WordleSolver(data_path)
+            self.solvers[id] = StatisticalWordleSolver(data_path)
         elif type == "absurdle":
-            self.solvers[id] = AbsurdleSolver(data_path)
+            self.solvers[id] = TreeAbsurdleSolver(data_path)
 
         return id
 

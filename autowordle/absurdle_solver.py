@@ -106,7 +106,7 @@ class Node:
 
 
 
-class AbsurdleSolver:
+class TreeAbsurdleSolver:
     def __init__(self, data_path, verbose=True):
         self.maxdepth = 8
         self.min_number_of_attempts = 4 # Minimum number of attempts ever required to solve Absurdle
