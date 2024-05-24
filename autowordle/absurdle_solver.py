@@ -2,13 +2,21 @@ from .dict_loader import get_possible_words, get_accepted_words
 from .wordle_util import absurdle_step, wordle_filter, find_non_equal_position
 
 class BasicAbsurdleSolver:
-    def __init__(self, data_path):
+    def __init__(self, data_path, verbose=None):
         self.remaining_words = get_possible_words(data_path)
+        self.number_of_past_attempts = 0
 
     def get_guess(self, new_game_state):
         # Restrict remaining_words based on new data
         for colored_word in new_game_state:
             self.remaining_words = wordle_filter(self.remaining_words, colored_word)
+
+        self.number_of_past_attempts += len(new_game_state)
+
+        if self.number_of_past_attempts == 0:
+            return {
+                "word": "ARISE" # Hardcoded first word
+            }
 
         choices = {}
         for word in self.remaining_words:
@@ -138,7 +146,6 @@ class AbsurdleSolver:
         root.depth = 0
 
         if self.number_of_past_attempts == 0:
-            #solution_node = self.find_solution_depth_first(root, self.maxdepth)
             best_user_answer = "SALET" # Hardcoded first word
         else:
             if len(root.remaining_words) < 500:
