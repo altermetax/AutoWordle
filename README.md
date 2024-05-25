@@ -47,6 +47,12 @@ source venv/bin/activate
 pip install Flask Flask-Session==0.6.0 python-memcached
 ```
 
+Make sure you have the `memcached` package installed and running. On Debian/Ubuntu, you can do so via `apt`:
+```sh
+apt install memcached
+systemctl start memcached
+```
+
 Then, create a directory called `instance` in the root of this repository containing a file called `config.py` configuring the Flask settings `SESSION_KEY` and `SESSION_TYPE`. To do so quickly, you can use the following commands:
 
 ```sh
