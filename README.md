@@ -53,7 +53,7 @@ apt install memcached
 systemctl start memcached
 ```
 
-Then, create a directory called `instance` in the root of this repository containing a file called `config.py` configuring the Flask settings `SESSION_KEY` and `SESSION_TYPE`. To do so quickly, you can use the following commands:
+Then, create a directory called `instance` in the root of this repository containing a file called `config.py` configuring the Flask settings `SECRET_KEY` and `SESSION_TYPE`. To do so quickly, you can use the following commands:
 
 ```sh
 SECRET_KEY=$(python -c 'import secrets; print(secrets.token_hex())')
@@ -64,10 +64,12 @@ SESSION_TYPE = "memcached"
 EOF
 ```
 
-Then you can simply start the application by running the following command and opening http://127.0.0.1:5000 in a web browser.
+Then you can simply start the application as follows
 
 ```sh
 flask --app autowordle run
 ```
 
-This configuration is only meant for debugging and testing. If you want to use this application in a production setting, check the Flask documentation page about [deploying to production](https://flask.palletsprojects.com/en/3.0.x/deploying/).
+and open it in a web browser on http://127.0.0.1:5000.
+
+This configuration is meant for debugging and testing only. If you want to use this application in a production setting, check the Flask documentation page about [deploying to production](https://flask.palletsprojects.com/en/3.0.x/deploying/).
