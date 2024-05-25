@@ -56,7 +56,6 @@ systemctl start memcached
 Then, create a directory called `instance` in the root of this repository containing a file called `config.py` configuring the Flask settings `SESSION_KEY` and `SESSION_TYPE`. To do so quickly, you can use the following commands:
 
 ```sh
-pip install python-secrets
 SECRET_KEY=$(python -c 'import secrets; print(secrets.token_hex())')
 mkdir instance
 cat > instance/config.py <<EOF
