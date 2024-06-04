@@ -37,14 +37,14 @@ Required attempts to solve Absurdle:
 
 ## Installation
 
-To install and test this application, firstly create a Python virtual environment and install the required packages (`Flask`, `Flask-Session==0.6.0`, `python-memcached`) with the following commands:
+To install and test this application, firstly create a Python virtual environment and install the required packages (`Flask`, `Flask-Session==0.6.0`, `python-memcached`, `requests`) with the following commands:
 
 ```sh
 git clone https://github.com/altermetax/AutoWordle.git
 cd AutoWordle
 python3 -m venv venv
 source venv/bin/activate
-pip install Flask Flask-Session==0.6.0 python-memcached
+pip install Flask Flask-Session==0.6.0 python-memcached requests
 ```
 
 Make sure you have the `memcached` package installed and running. On Debian/Ubuntu, you can do so via `apt`:
